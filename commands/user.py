@@ -1,0 +1,57 @@
+from interactions import (
+    slash_command, slash_option, SlashContext, Extension,
+    OptionType, User, SlashCommandChoice, Embed, EmbedFooter
+)
+from utility import log, getUser, updateUser
+from models import Ranks
+
+class UserCommands(Extension):
+    # PROFILE COMMAND
+    @slash_command("profile", description="User profile!")
+    @slash_option(
+        name="user",
+        description="Target user. By default its you!",
+        required=False,
+        opt_type=OptionType.USER
+    )
+    async def profile_function(self, ctx: SlashContext, user: User = None):
+        log(f"[{ctx.author_id} {ctx.author.username}] /profile -> {user}")
+        if user != None:
+            userData = getUser(user.id)
+            profile = Embed(
+                title= f"**{user.display_name} Profile:**",
+                description= f"**ID:** {user.id}\n**Rank:** {userData['rank']}\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
+                color= 65464,
+                footer= EmbedFooter(
+                    text= f"{user.username}",
+                    icon_url= user.display_avatar.url
+                ) 
+            )
+        else:
+            userData = getUser(ctx.author_id)
+            profile = Embed(
+                title= f"**{ctx.author.display_name} Profile:**",
+                description= f"**ID:** {ctx.author.id}\n**Rank:** {userData['rank']}\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
+                color= 65464,
+                footer= EmbedFooter(
+                    text= f"{ctx.author.username}",
+                    icon_url= ctx.author.display_avatar.url
+                )
+            )
+        
+        await ctx.send(content="", embed=profile)
+
+    # RANKUP COMMAND
+    @slash_command("rank_up", description="Rank up command?!")
+    async def rank_up_function(self, ctx: SlashContext):
+        user = getUser(ctx.author_id)
+
+        # ADD CONFIRMATION
+        # ADD VALIDATION
+
+        requiedPoints = 0
+        if user['points'] >= requiedPoints:
+            user['points'] -= requiedPoints
+            user['rank'] += 1
+            updateUser(ctx.author_id, user)
+            await ctx.send(f"Ranked UP!\nYour rank now: {Ranks[user['rank']]} ({user['rank']})")
