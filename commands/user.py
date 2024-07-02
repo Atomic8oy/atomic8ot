@@ -20,7 +20,7 @@ class UserCommands(Extension):
             userData = getUser(user.id)
             profile = Embed(
                 title= f"**{user.display_name} Profile:**",
-                description= f"**ID:** {user.id}\n**Rank:** {userData['rank']}\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
+                description= f"**ID:** {user.id}\n**Rank:** {Ranks[userData['rank']]} ({userData['rank']})\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
                 color= 65464,
                 footer= EmbedFooter(
                     text= f"{user.username}",
@@ -31,7 +31,7 @@ class UserCommands(Extension):
             userData = getUser(ctx.author_id)
             profile = Embed(
                 title= f"**{ctx.author.display_name} Profile:**",
-                description= f"**ID:** {ctx.author.id}\n**Rank:** {userData['rank']}\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
+                description= f"**ID:** {ctx.author_id}\n**Rank:** {Ranks[userData['rank']]} ({userData['rank']})\n**Points:** {userData['points']}\n**Multiplier:** {userData['multiplier']}\n**Wallet:** {userData['wallet']}",
                 color= 65464,
                 footer= EmbedFooter(
                     text= f"{ctx.author.username}",
@@ -46,12 +46,12 @@ class UserCommands(Extension):
     async def rank_up_function(self, ctx: SlashContext):
         user = getUser(ctx.author_id)
 
-        # ADD CONFIRMATION
-        # ADD VALIDATION
+        requiredPoints = user['rank'] * 4 + (user['rank'] + 1 * 2)
 
-        requiedPoints = 0
-        if user['points'] >= requiedPoints:
-            user['points'] -= requiedPoints
+        if user['points'] >= requiredPoints:
+            user['points'] -= requiredPoints
             user['rank'] += 1
             updateUser(ctx.author_id, user)
             await ctx.send(f"Ranked UP!\nYour rank now: {Ranks[user['rank']]} ({user['rank']})")
+        else:
+            await ctx.send(f"You do not have enough points to rank up.\nRequired: {requiredPoints}. You need {requiredPoints-user['points']} more")
