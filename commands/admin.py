@@ -2,7 +2,7 @@ from interactions import (
     slash_command, slash_option, SlashContext, Extension,
     OptionType, User, check
 )
-from utility import log, isAdmin, getUser ,updateUser
+from utility import log, isAdmin, CRUD
 
 class AdminCommands(Extension):
 
@@ -22,9 +22,9 @@ class AdminCommands(Extension):
     )
     @check(isAdmin)
     async def add_points_function(self, ctx:SlashContext, target:User, points:int):
-        user = getUser(target.id)
+        user = CRUD.get(target.id)
         user['points'] += points
-        updateUser(target.id, user)
+        CRUD.update(target.id, user)
         log(f"[{ctx.author_id} {ctx.author.username}] Added {points} to [{target.id} {target.username}]")
         await ctx.send(f"Added {points} to {target.display_name}!")
 

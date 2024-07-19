@@ -2,7 +2,7 @@ from interactions import (
     slash_command, slash_option, SlashContext, Extension,
     OptionType, User, SlashCommandChoice
 )
-from utility import log, getUser ,updateUser
+from utility import log, CRUD
 from models import RpsOptions, Coin
 from random import randint
 
@@ -75,9 +75,9 @@ class MainCommands(Extension):
         log(f"[{ctx.author_id} {ctx.author.username}] /RPS -> {user} - {code}")
 
         if status == 0:
-            userData = getUser(ctx.author_id)
+            userData = CRUD.get(ctx.author_id)
             userData['points'] += userData['multiplier']
-            updateUser(ctx.author_id, userData)
+            CRUD.update(ctx.author_id, userData)
             await ctx.send(f"You Won! {RpsOptions[user]} - {RpsOptions[code]}\nYou earned {userData['multiplier']} points. Total: {userData['points']}")
         elif status == 1:
             await ctx.send(f"You Lost! {RpsOptions[user]} - {RpsOptions[code]}")
@@ -115,10 +115,10 @@ class MainCommands(Extension):
         log(f"[{ctx.author_id} {ctx.author.username}] /random {max}, {guess} -> {number}")
 
         if number == guess:
-            user = getUser(ctx.author_id)
+            user = CRUD.get(ctx.author_id)
             earned  = int(user['multiplier'] * (max / 10))
             user['points'] += earned
-            updateUser(ctx.author_id, user)
+            CRUD.update(ctx.author_id, user)
             await ctx.send(f"YOU WON!!!\nAnd you got {earned} points. Your Total points: {user['points']}")
 
         else:
