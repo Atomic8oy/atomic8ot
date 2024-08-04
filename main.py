@@ -1,5 +1,5 @@
 from interactions import (
-    Activity, slash_command, Client, Intents
+    Activity, Client, Intents
 )
 from config import (
     BOT_TOKEN, ACTIVITY_TYPE, ACTIVITY_MESSAGE

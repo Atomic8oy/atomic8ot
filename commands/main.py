@@ -1,6 +1,6 @@
 from interactions import (
     slash_command, slash_option, SlashContext, Extension,
-    OptionType, User, SlashCommandChoice
+    OptionType, SlashCommandChoice
 )
 from utility import log, CRUD
 from models import RpsOptions, Coin
