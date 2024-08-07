@@ -4,7 +4,7 @@ import logging
 import json
 import os
 
-from models import User
+from models import DaUser
 from config import ADMIN_IDS
 
 logging.basicConfig(
@@ -20,27 +20,30 @@ def log(message:str)-> None:
     logger.debug(message)
 
 class CRUD():
-    def create(self, userID)-> dict:
+    def __init__(self) -> None:
+        pass
+    
+    def create(self, userID:int)-> DaUser:
         file = open(f"database/{userID}.json", 'w')
-        user = User
-        user['id'] = userID
+        user = DaUser()
+        user.id = userID
         file.write(json.dumps(user))
         file.close()
         log(f"User {userID} Created")
         return user
 
-    def get(self, userID:int)-> dict:
+    def get(self, userID:int)-> DaUser:
         try:
             file = open(f"database/{userID}.json", 'r')
             jsonRaw = file.read()
             file.close()
             log(f"User {userID} Accessed")
-            return json.loads(jsonRaw)
+            return DaUser(json.loads(jsonRaw))
         except:
             log(f"[WARNING] EXCEPTION ON GET USER: {userID}")
-            return self.createUser(userID)
+            return self.create(userID)
         
-    def update(self, userID:int, data:dict)-> None:
+    def update(self, userID:int, data:DaUser)-> None:
         file = open(f"database/{userID}.json", 'w')
         file.write(json.dumps(data))
         file.close()
@@ -52,7 +55,6 @@ class CRUD():
             return True
         else:
             return False
-
 
 async def isAdmin(ctx: BaseContext)-> bool:
     if str(ctx.author_id) in ADMIN_IDS:

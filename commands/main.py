@@ -3,7 +3,7 @@ from interactions import (
     OptionType, SlashCommandChoice
 )
 from utility import log, CRUD
-from models import RpsOptions, Coin
+from models import RpsOptions, Coin, DaUser
 from random import randint
 
 class MainCommands(Extension):
@@ -75,10 +75,10 @@ class MainCommands(Extension):
         log(f"[{ctx.author_id} {ctx.author.username}] /RPS -> {user} - {code}")
 
         if status == 0:
-            userData = CRUD.get(ctx.author_id)
-            userData['points'] += userData['multiplier']
+            userData:DaUser = CRUD.get(ctx.author_id)
+            userData.points += userData.multiplier
             CRUD.update(ctx.author_id, userData)
-            await ctx.send(f"You Won! {RpsOptions[user]} - {RpsOptions[code]}\nYou earned {userData['multiplier']} points. Total: {userData['points']}")
+            await ctx.send(f"You Won! {RpsOptions[user]} - {RpsOptions[code]}\nYou earned {userData.multiplier} points. Total: {userData.points}")
         elif status == 1:
             await ctx.send(f"You Lost! {RpsOptions[user]} - {RpsOptions[code]}")
         elif status == 2:
@@ -115,11 +115,11 @@ class MainCommands(Extension):
         log(f"[{ctx.author_id} {ctx.author.username}] /random {max}, {guess} -> {number}")
 
         if number == guess:
-            user = CRUD.get(ctx.author_id)
-            earned  = int(user['multiplier'] * (max / 10))
-            user['points'] += earned
+            user:DaUser = CRUD.get(ctx.author_id)
+            earned  = int(user.multiplier * (max / 10))
+            user.points += earned
             CRUD.update(ctx.author_id, user)
-            await ctx.send(f"YOU WON!!!\nAnd you got {earned} points. Your Total points: {user['points']}")
+            await ctx.send(f"YOU WON!!!\nAnd you got {earned} points. Your Total points: {user.points}")
 
         else:
             await ctx.send(f"Better luck next time.\nThe number was {number}")

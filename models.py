@@ -1,11 +1,11 @@
-User = {
-    'id': 0,
-    'points': 0,
-    'wallet': 0,
-    'rank': 1,
-    'multiplier': 1,
-}
-
+class DaUser():
+    def __init__(self, userList: list  | None)-> None:
+        self.id = userList['id'] if userList else None
+        self.points = userList['points'] if userList else 0
+        self.wallet = userList['wallet'] if userList else 0
+        self.rank = userList['rank'] if userList else 1
+        self.multiplier = userList['multiplier'] if userList else 1
+ 
 RpsOptions = ["Rock", "Paper", "Scissors"]
 
 Coin = ["Heads", "Tails"]
