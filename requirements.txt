@@ -1,2 +1,4 @@
 discord-py-interactions==5.12.1
 logging==0.4.9.6
+python-decouple==3.8
+python-dotenv==1.0.1
