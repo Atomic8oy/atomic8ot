@@ -16,8 +16,9 @@ class UserCommands(Extension):
     )
     async def profile_function(self, ctx: SlashContext, user: User = None):
         log(f"[{ctx.author_id} {ctx.author.username}] /profile -> {user}")
-        if user != None:
-            userData:DaUser = CRUD.get(userID=user.id)
+        if user:
+            userCRUD = CRUD(user.id)
+            userData:DaUser = userCRUD.get()
             profile = Embed(
                 title= f"**{user.display_name} Profile:**",
                 description= f"**ID:** {user.id}\n**Rank:** {Ranks[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
@@ -28,7 +29,8 @@ class UserCommands(Extension):
                 ) 
             )
         else:
-            userData:DaUser = CRUD.get(ctx.author_id)
+            userCRUD = CRUD(ctx.author_id)
+            userData:DaUser = userCRUD.get()
             profile = Embed(
                 title= f"**{ctx.author.display_name} Profile:**",
                 description= f"**ID:** {ctx.author_id}\n**Rank:** {Ranks[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
@@ -44,14 +46,15 @@ class UserCommands(Extension):
     # RANKUP COMMAND
     @slash_command("rank_up", description="Rank up command?!")
     async def rank_up_function(self, ctx: SlashContext):
-        user:DaUser = CRUD.get(ctx.author_id)
+        userCRUD = CRUD(ctx.author_id)
+        user:DaUser = userCRUD.get()
 
         requiredPoints = user.rank * 4 + (user.rank + 1 * 2)
 
         if user.points >= requiredPoints:
             user.points -= requiredPoints
             user.rank += 1
-            CRUD.update(ctx.author_id, user)
+            userCRUD.update(user)
             await ctx.send(f"Ranked UP!\nYour rank now: {Ranks[user.rank]} ({user.rank})")
         else:
             await ctx.send(f"You do not have enough points to rank up.\nRequired: {requiredPoints}. You need {requiredPoints-user.points} more")

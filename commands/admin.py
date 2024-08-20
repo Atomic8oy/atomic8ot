@@ -7,7 +7,6 @@ from utility import log, isAdmin, CRUD
 from models import DaUser
 
 class AdminCommands(Extension):
-
     # GIVE_POINTS COMMAND
     @slash_command("give_points", description="Admin command to give someone points")
     @slash_option(
@@ -24,9 +23,10 @@ class AdminCommands(Extension):
     )
     @check(isAdmin)
     async def add_points_function(self, ctx:SlashContext, target:User, points:int):
-        user:DaUser = CRUD.get(target.id)
+        userCRUD = CRUD(target.id)
+        user = userCRUD.get()
         user.points += points
-        CRUD.update(target.id, user)
+        userCRUD.update(user)
         log(f"[{ctx.author_id} {ctx.author.username}] Added {points} to [{target.id} {target.username}]")
         await ctx.send(f"Added {points} to {target.display_name}!")
 

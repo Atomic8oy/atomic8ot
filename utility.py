@@ -1,7 +1,7 @@
 from interactions import BaseContext
+from json import dumps, loads
 import datetime
 import logging
-import json
 import os
 
 from models import DaUser
@@ -20,34 +20,31 @@ def log(message:str)-> None:
     logger.debug(message)
 
 class CRUD():
-    def __init__(self) -> None:
-        pass
-    
-    def create(self, userID:int)-> DaUser:
-        file = open(f"database/{userID}.json", 'w')
-        user = DaUser()
-        user.id = userID
-        file.write(json.dumps(user))
-        file.close()
-        log(f"User {userID} Created")
-        return user
-
-    def get(self, userID:int)-> DaUser:
+    def __init__(self, userID) -> None:
         try:
             file = open(f"database/{userID}.json", 'r')
-            jsonRaw = file.read()
+            self._user = loads(file.read())
             file.close()
-            log(f"User {userID} Accessed")
-            return DaUser(json.loads(jsonRaw))
-        except:
-            log(f"[WARNING] EXCEPTION ON GET USER: {userID}")
-            return self.create(userID)
+            log(f"User {userID} readed")
+        except FileNotFoundError:
+            file = open(f"database/{userID}.json", 'w')
+            user = DaUser()
+            user.id = userID
+            file.write(dumps(user.get_dict()))
+            file.close()
+            log("User {userID} created")
+            self.__init__(userID)
+
+    def get(self)-> DaUser:
+        log(f"User {self._user['id']} accessed")
+        return DaUser(self._user)
         
-    def update(self, userID:int, data:DaUser)-> None:
-        file = open(f"database/{userID}.json", 'w')
-        file.write(json.dumps(data))
+    def update(self, data:DaUser)-> None:
+        self._user = data.get_dict()
+        file = open(f"database/{self._user['id']}.json", 'w')
+        file.write(dumps(self._user))
         file.close()
-        log(f"User {userID} Updated")
+        log(f"User {self._user['id']} Updated")
 
     def delete(self, userID:int)-> bool:
         if os.path.exists(f"database/{userID}.json"):
