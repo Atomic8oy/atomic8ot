@@ -22,12 +22,12 @@ def log(message:str)-> None:
 class CRUD():
     def __init__(self, userID) -> None:
         try:
-            file = open(f"database/{userID}.json", 'r')
+            file = open(f"database/users/{userID}.json", 'r')
             self._user = loads(file.read())
             file.close()
             log(f"User {userID} readed")
         except FileNotFoundError:
-            file = open(f"database/{userID}.json", 'w')
+            file = open(f"database/users/{userID}.json", 'w')
             user = DaUser()
             user.id = userID
             file.write(dumps(user.get_dict()))
@@ -41,14 +41,14 @@ class CRUD():
         
     def update(self, data:DaUser)-> None:
         self._user = data.get_dict()
-        file = open(f"database/{self._user['id']}.json", 'w')
+        file = open(f"database/users/{self._user['id']}.json", 'w')
         file.write(dumps(self._user))
         file.close()
         log(f"User {self._user['id']} Updated")
 
     def delete(self, userID:int)-> bool:
-        if os.path.exists(f"database/{userID}.json"):
-            os.remove(f"database/{userID}.json")
+        if os.path.exists(f"database/users/{userID}.json"):
+            os.remove(f"database/users/{userID}.json")
             return True
         else:
             return False
