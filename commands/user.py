@@ -1,6 +1,6 @@
 from interactions import (
     slash_command, slash_option, SlashContext, Extension,
-    OptionType, User, Embed, EmbedFooter
+    OptionType, User, Embed, EmbedFooter, MISSING
 )
 from utility import log, CRUD
 from models import Ranks, DaUser
@@ -14,7 +14,7 @@ class UserCommands(Extension):
         required=False,
         opt_type=OptionType.USER
     )
-    async def profile_function(self, ctx: SlashContext, user: User = None):
+    async def profile_function(self, ctx:SlashContext, user:User = MISSING):
         log(f"[{ctx.author_id} {ctx.author.username}] /profile -> {user}")
         if user:
             userCRUD = CRUD(user.id)
