@@ -6,19 +6,19 @@ load_dotenv()
 
 BOT_TOKEN = config("BOT_TOKEN", default=False)
 
-temp = config("ACTIVITY_TYPE", default="PLAYING")
-if temp == "COMPETING":
-    ACTIVITY_TYPE = ActivityType.COMPETING
-elif temp == "GAME":
-    ACTIVITY_TYPE = ActivityType.GAME
-elif temp == "LISTENING":
-    ACTIVITY_TYPE = ActivityType.LISTENING
-elif temp == "STREAMING":
-    ACTIVITY_TYPE = ActivityType.STREAMING
-elif temp == "WATCHING":
-    ACTIVITY_TYPE = ActivityType.WATCHING
-else:
-    ACTIVITY_TYPE = ActivityType.PLAYING
+match config("ACTIVITY_TYPE", default="PLAYING"):
+    case "COMPETING":
+        ACTIVITY_TYPE = ActivityType.COMPETING    
+    case "GAME":
+        ACTIVITY_TYPE = ActivityType.GAME
+    case "LISTENING":
+        ACTIVITY_TYPE = ActivityType.LISTENING
+    case "STREAMING":
+        ACTIVITY_TYPE = ActivityType.STREAMING
+    case "WATCHING":
+        ACTIVITY_TYPE = ActivityType.WATCHING
+    case _:
+        ACTIVITY_TYPE = ActivityType.PLAYING
 
 ACTIVITY_MESSAGE = config("ACTIVITY_MESSAGE", default=None)
 
