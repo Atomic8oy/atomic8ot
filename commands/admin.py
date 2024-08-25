@@ -4,7 +4,6 @@ from interactions import (
 )
 
 from utility import log, isAdmin, CRUD
-from models import DaUser
 
 class AdminCommands(Extension):
     # GIVE_POINTS COMMAND
