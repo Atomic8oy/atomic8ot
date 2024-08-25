@@ -21,7 +21,7 @@ class UserCommands(Extension):
             userData:DaUser = userCRUD.get()
             profile = Embed(
                 title= f"**{user.display_name} Profile:**",
-                description= f"**ID:** {user.id}\n**Rank:** {Ranks[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
+                description= f"**ID:** {user.id}\n**Rank:** {RANKS[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
                 color= 65464,
                 footer= EmbedFooter(
                     text= f"{user.username}",
@@ -33,7 +33,7 @@ class UserCommands(Extension):
             userData:DaUser = userCRUD.get()
             profile = Embed(
                 title= f"**{ctx.author.display_name} Profile:**",
-                description= f"**ID:** {ctx.author_id}\n**Rank:** {Ranks[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
+                description= f"**ID:** {ctx.author_id}\n**Rank:** {RANKS[userData.rank]} ({userData.rank})\n**Points:** {userData.points}\n**Multiplier:** {userData.multiplier}\n**Wallet:** {userData.wallet}",
                 color= 65464,
                 footer= EmbedFooter(
                     text= f"{ctx.author.username}",
