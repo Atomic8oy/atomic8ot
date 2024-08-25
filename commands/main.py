@@ -3,7 +3,7 @@ from interactions import (
     OptionType, SlashCommandChoice
 )
 from utility import log, CRUD
-from models import RpsOptions, Coin, DaUser
+from models import RPS_OPTIONS, COIN, DaUser
 from random import randint
 
 class MainCommands(Extension):
@@ -79,11 +79,11 @@ class MainCommands(Extension):
             userData:DaUser = userCRUD.get()
             userData.points += userData.multiplier
             userCRUD.update(userData)
-            await ctx.send(f"You Won! {RpsOptions[user]} - {RpsOptions[code]}\nYou earned {userData.multiplier} points. Total: {userData.points}")
+            await ctx.send(f"You Won! {RPS_OPTIONS[user]} - {RPS_OPTIONS[code]}\nYou earned {userData.multiplier} points. Total: {userData.points}")
         elif status == 1:
-            await ctx.send(f"You Lost! {RpsOptions[user]} - {RpsOptions[code]}")
+            await ctx.send(f"You Lost! {RPS_OPTIONS[user]} - {RPS_OPTIONS[code]}")
         elif status == 2:
-            await ctx.send(f"We got tied! {RpsOptions[user]} - {RpsOptions[code]}")
+            await ctx.send(f"We got tied! {RPS_OPTIONS[user]} - {RPS_OPTIONS[code]}")
 
     # GUESS COMMAND
     @slash_command("guess", description="Guess the number!")
@@ -131,4 +131,4 @@ class MainCommands(Extension):
     async def coin_function(self, ctx: SlashContext):
         pos = randint(0,1)
         log(f"[{ctx.author_id} {ctx.author.username}] /coin -> {pos}")
-        await ctx.send(Coin[pos])
+        await ctx.send(COIN[pos])

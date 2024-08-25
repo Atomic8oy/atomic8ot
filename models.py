@@ -15,11 +15,11 @@ class DaUser():
             "multiplier": self.multiplier
         }
  
-RpsOptions = ["Rock", "Paper", "Scissors"]
+RPS_OPTIONS = ["Rock", "Paper", "Scissors"]
 
-Coin = ["Heads", "Tails"]
+COIN = ["Heads", "Tails"]
 
-Ranks = [ "God???",
+RANKS = [ "God???",
     "Bronze I", "Bronze II", "Bronze III", "Bronze IV",
     "Silver I", "Silver II", "Silver III", "Silber IV",
     "Gold I", "Gold II", "Gold III", "Gold IV",

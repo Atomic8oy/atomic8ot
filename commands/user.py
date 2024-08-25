@@ -3,7 +3,7 @@ from interactions import (
     OptionType, User, Embed, EmbedFooter, MISSING
 )
 from utility import log, CRUD
-from models import Ranks, DaUser
+from models import RANKS, DaUser
 
 class UserCommands(Extension):
     # PROFILE COMMAND
@@ -55,6 +55,6 @@ class UserCommands(Extension):
             user.points -= requiredPoints
             user.rank += 1
             userCRUD.update(user)
-            await ctx.send(f"Ranked UP!\nYour rank now: {Ranks[user.rank]} ({user.rank})")
+            await ctx.send(f"Ranked UP!\nYour rank now: {RANKS[user.rank]} ({user.rank})")
         else:
             await ctx.send(f"You do not have enough points to rank up.\nRequired: {requiredPoints}. You need {requiredPoints-user.points} more")
