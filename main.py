@@ -5,7 +5,6 @@ from config import (
     BOT_TOKEN, ACTIVITY_TYPE, ACTIVITY_MESSAGE
 )
 from utility import log
-import interactions
 
 bot = Client(
     activity=Activity(ACTIVITY_MESSAGE, type=ACTIVITY_TYPE),
