@@ -1,4 +1,4 @@
-class DaUser():
+class DaUser(): # the word User was already taken by interactions so... yeah
     def __init__(self, userList:list = None)-> None:
         self.id = userList['id'] if userList else None
         self.points = userList['points'] if userList else 0
