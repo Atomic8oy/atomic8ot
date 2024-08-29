@@ -1,5 +1,5 @@
 from interactions import (
-    Activity, Client, Intents
+    Activity, Client, Intents, listen
 )
 from config import (
     BOT_TOKEN, ACTIVITY_TYPE, ACTIVITY_MESSAGE
@@ -13,7 +13,7 @@ bot = Client(
     sync_interactions=True
 )
 
-@interactions.listen()
+@listen()
 async def on_startup():
     log("Bot is Online")
 
