@@ -1,0 +1,86 @@
+{
+    "music": [
+        {
+            "id": 0,
+            "q": "Which band invented the metal music for the first time?",
+            "a": "Black Sabbath ",
+            "f": [
+                "Metallica",
+                "Slipknot",
+                "System of a Down"
+            ]
+        },
+        {
+            "id": 1,
+            "q": "Which song was the last song of Nirvana?",
+            "a": "You Know You're Right",
+            "f": [
+                "Smells Like Teen Spirit",
+                "Marigold",
+                "Heart-Shaped Box"
+            ]
+        },
+        {
+            "id": 2,
+            "q": "Who is **not** a member of the band Radiohead?",
+            "a": "Andy Yorke",
+            "f": [
+                "Collin Greenwood",
+                "Jonny Greenwood",
+                "Ed O'Brien"
+            ]
+        },
+        {
+            "id": 3,
+            "q": "What are the nationalities of the members of System of a Down?",
+            "a": "Armenian-American",
+            "f": [
+                "Turk-American",
+                "Kazakh-American",
+                "Serbian-American"
+            ]
+        },
+        {
+            "id": 4,
+            "q": "Who is the vocalist of System of a Down besides Serj Tankian?",
+            "a": "Daron Malakian",
+            "f": [
+                "Shavo Odadjian",
+                "John Dolmayan",
+                "Pat Smear"
+            ]
+        }
+    ],
+    "computer_science": [
+        {
+            "id": 5,
+            "q": "Which one of the options represent **Base 16** encoding?",
+            "a": "Hexadecimal",
+            "f": [
+                "Octal",
+                "Binary",
+                "Hash"
+            ]
+        },
+        {
+            "id": 6,
+            "q": "Which http status code represent a server side error?",
+            "a": "502",
+            "f": [
+                "404",
+                "201",
+                "101"
+            ]
+        },
+        {
+            "id": 7,
+            "q": "Which option is **not** an valid **IP**?",
+            "a": "21.74.365.32",
+            "f": [
+                "42.1.56.64",
+                "205.33.62.1",
+                "53.32.64.252"
+            ]
+        }
+    ]
+}

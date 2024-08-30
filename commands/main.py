@@ -1,10 +1,12 @@
 from interactions import (
     slash_command, slash_option, SlashContext, Extension,
-    OptionType, SlashCommandChoice
+    OptionType, SlashCommandChoice, Button, ButtonStyle
 )
 from utility import log, CRUD
-from models import RPS_OPTIONS, COIN, DaUser
-from random import randint
+from models import (
+    RPS_OPTIONS, COIN, DaUser, QUESTION_TOPICS, TRIVIA
+)
+from random import randint, shuffle
 
 class MainCommands(Extension):
 
@@ -132,3 +134,20 @@ class MainCommands(Extension):
         pos = randint(0,1)
         log(f"[{ctx.author_id} {ctx.author.username}] /coin -> {pos}")
         await ctx.send(COIN[pos])
+
+    @slash_command("question", description="Test your knowledge!")
+    @slash_option(
+        "topic", description="Question topic", opt_type=OptionType.STRING, required=True,
+        choices=QUESTION_TOPICS
+    )
+    async def question_function(self, ctx:SlashContext, topic:str):
+        question = TRIVIA[topic][randint(0, len(TRIVIA[topic])-1)]
+
+        comps = [
+            Button(style=ButtonStyle.SECONDARY, label=question['a'],    custom_id=f"trivia|{question['id']}|0"),
+            Button(style=ButtonStyle.SECONDARY, label=question['f'][0], custom_id=f"trivia|{question['id']}|1"),
+            Button(style=ButtonStyle.SECONDARY, label=question['f'][1], custom_id=f"trivia|{question['id']}|2"),
+            Button(style=ButtonStyle.SECONDARY, label=question['f'][2], custom_id=f"trivia|{question['id']}|3")
+        ]
+        shuffle(comps)
+        await ctx.send(question['q'], components=comps)
