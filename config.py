@@ -1,24 +1,25 @@
 from decouple import config
 from dotenv import load_dotenv
-from interactions import ActivityType
+
+from exceptions import InvalidVariable
 
 load_dotenv()
 
-BOT_TOKEN = config("BOT_TOKEN", default=False)
+BOT_TOKEN = config("BOT_TOKEN", default=None)
 
-match config("ACTIVITY_TYPE", default="PLAYING"):
-    case "COMPETING":
-        ACTIVITY_TYPE = ActivityType.COMPETING    
-    case "GAME":
-        ACTIVITY_TYPE = ActivityType.GAME
-    case "LISTENING":
-        ACTIVITY_TYPE = ActivityType.LISTENING
-    case "STREAMING":
-        ACTIVITY_TYPE = ActivityType.STREAMING
-    case "WATCHING":
-        ACTIVITY_TYPE = ActivityType.WATCHING
-    case _:
-        ACTIVITY_TYPE = ActivityType.PLAYING
+if not BOT_TOKEN:
+    raise InvalidVariable("BOT_TOKEN CAN NOT BE EMPTY")
+
+
+activity_type = config("ACTIVITY_TYPE", default=None)
+
+if activity_type:
+    if activity_type.isnumeric() and int(activity_type) not in [0,1,2,3,5]:
+        ACTIVITY_TYPE = 0
+        raise InvalidVariable("ACTIVITY_TYPE IS INVALID") # BROKEN?
+    else:
+        ACTIVITY_TYPE = activity_type
+
 
 ACTIVITY_MESSAGE = config("ACTIVITY_MESSAGE", default=None)
 

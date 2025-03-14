@@ -1,55 +1,36 @@
 from interactions import (
-    Activity, Client, Intents, listen, ButtonStyle, ActionRow
+    Activity, Client, Intents, listen, slash_command, SlashContext
 )
 from interactions.api.events import Component
-from config import (
-    BOT_TOKEN, ACTIVITY_TYPE, ACTIVITY_MESSAGE
-)
-from utility import log
+
+from utils import log
+from config import BOT_TOKEN, ACTIVITY_TYPE, ACTIVITY_MESSAGE   
+
+if ACTIVITY_TYPE:
+    act = Activity(ACTIVITY_MESSAGE, ACTIVITY_TYPE)  
+else: 
+    act = None
 
 bot = Client(
-    activity=Activity(ACTIVITY_MESSAGE, type=ACTIVITY_TYPE),
+    activity=act,
     intents=Intents.DEFAULT | Intents.MESSAGE_CONTENT,
     sync_interactions=True
 )
 
+@slash_command("ping", description="Bot Ping!")
+async def ping_function(ctx:SlashContext):
+    await ctx.send("Pong!")
+    log(f"[{ctx.author_id}] -> /ping")
+
 @listen()
 async def on_startup():
-    log("Bot is Online")
+    log("BOT STARTUP")
 
 @listen()
 async def on_component(event: Component):
-    ctx = event.ctx
-    compDT = ctx.custom_id.split("|")
+    pass
 
-    if compDT[0] == "trivia":
-        finComps = ActionRow()
-        if compDT[2] == "0":
+# bot.load_extension("commands")
 
-            for compDict in ctx.message.components[0].to_dict()['components']:
-                if compDict['custom_id'] == ctx.custom_id:
-                    compDict['style'] = ButtonStyle.GREEN
-                else:
-                    compDict['style'] = ButtonStyle.GRAY
-                compDict['disabled'] = True
-
-                finComps.add_component(compDict)
-            
-            await ctx.send("Correct!")
-        else:
-            for compDict in ctx.message.components[0].to_dict()["components"]:
-                if compDict['custom_id'] == ctx.custom_id:
-                    compDict['style'] = ButtonStyle.RED
-                elif compDict['custom_id'].split("|")[2] == '0':
-                    compDict['style'] = ButtonStyle.GREEN
-                compDict['disabled'] = True
-
-                finComps.add_component(compDict)
-                
-            await ctx.send("Wrong.")
-        
-        await ctx.message.edit(content=ctx.message.content, components=finComps)
-
-log("Starting the bot")
-bot.load_extension("commands")
-bot.start(token=BOT_TOKEN)
+if BOT_TOKEN:
+    bot.start(token=BOT_TOKEN)
