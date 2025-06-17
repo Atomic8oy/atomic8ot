@@ -1,6 +1,4 @@
-from commands import admin, main, user
+from commands import main
 
 def setup(bot):
-    # admin.AdminCommands(bot)
     main.MainCommands(bot)
-    # user.UserCommands(bot)
